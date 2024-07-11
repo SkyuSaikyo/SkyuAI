@@ -1,4 +1,3 @@
 warehouse/*
-*.json
 *.pth
 __pycache__
