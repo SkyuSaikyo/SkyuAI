@@ -2,7 +2,7 @@ import os
 import torch
 from torch.utils.data import DataLoader
 
-from basic import ImdbDataset, SimpleModel
+from basic import ImdbDataset, SimpleRnnModel
 
 warehouse_dir = "../../../warehouse"
 
@@ -11,12 +11,12 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 test_ds = ImdbDataset(
     os.path.join(warehouse_dir, "./nlp/aclImdb"),
     "../../tokenizer/english/tokenizer.json",
-    256,
+    32,
     False,
 )
 test_dl = DataLoader(dataset=test_ds, batch_size=128)
 
-model = SimpleModel(32768, 8, 256).to(device)
+model = SimpleRnnModel(32768, 32, 32).to(device)
 checkpoint = torch.load("model.pth")
 model.load_state_dict(checkpoint["model_state_dict"])
 model.eval()

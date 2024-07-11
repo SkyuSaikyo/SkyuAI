@@ -1,2 +1,4 @@
 warehouse/*
-**/tokenizer.json
+*.json
+*.pth
+__pycache__

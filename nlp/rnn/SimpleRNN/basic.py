@@ -5,18 +5,18 @@ from torch.utils.data import Dataset
 from tokenizers import Tokenizer
 
 
-class SimpleModel(nn.Module):
-    def __init__(self, vocab_size, embedding_dim, input_length):
+class SimpleRnnModel(nn.Module):
+    def __init__(self, vocab_size, embedding_dim, state_dim):
         super().__init__()
         self.embedding = nn.Embedding(vocab_size, embedding_dim)
-        self.flatten = nn.Flatten()
-        self.fc = nn.Linear(embedding_dim * input_length, 1)
+        self.rnn = nn.RNN(embedding_dim, state_dim, batch_first=True)
+        self.fc = nn.Linear(state_dim, 1)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
         x = self.embedding(x)
-        x = self.flatten(x)
-        x = self.fc(x)
+        _, h_n = self.rnn(x)
+        x = self.fc(h_n.squeeze(0))
         x = self.sigmoid(x)
         return x
 

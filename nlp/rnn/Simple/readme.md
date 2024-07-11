@@ -1,0 +1,1 @@
+Here’s a basic implementation for training on tokenized text, using the simplest code stored in basic.py, which includes the dataset and the network used.

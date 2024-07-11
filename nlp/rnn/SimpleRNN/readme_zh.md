@@ -1,0 +1,3 @@
+使用Simple RNN对IMDB数据集进行处理。
+注意，这里在加载训练数据集的时候，设置ImdbDataset的max_length为32，而不是在Simple中的256
+经过测试，设置最大长度稍微小一点，训练的效果反而更好
