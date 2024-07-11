@@ -8,13 +8,13 @@ warehouse_dir = "../../../warehouse"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-test_ds = ImdbDataset(
+ds = ImdbDataset(
     os.path.join(warehouse_dir, "./nlp/aclImdb"),
     "../../tokenizer/english/tokenizer.json",
     256,
     False,
 )
-test_dl = DataLoader(dataset=test_ds, batch_size=128)
+dl = DataLoader(dataset=ds, batch_size=128)
 
 model = SimpleModel(32768, 8, 256).to(device)
 checkpoint = torch.load("model.pth")
@@ -26,12 +26,12 @@ total = 0
 
 print("Testing the model...")
 with torch.no_grad():
-    for batch_X, batch_y in test_dl:
-        batch_X, batch_y = batch_X.to(device), batch_y.to(device)
-        outputs = model(batch_X)
+    for inputs, labels in dl:
+        inputs, labels = inputs.to(device), labels.to(device)
+        outputs = model(inputs)
         predicted = (outputs.squeeze() > 0.5).float()
-        total += batch_y.size(0)
-        correct += (predicted == batch_y).sum().item()
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
 
 accuracy = correct / total
 print(f"Test Accuracy: {accuracy:.4f}")

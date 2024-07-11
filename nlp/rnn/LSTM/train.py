@@ -36,10 +36,10 @@ else:
     print("Starting training from scratch")
 
 for epoch in range(start_epoch, num_epochs):
-    for batch_X, batch_y in dl:
-        batch_X, batch_y = batch_X.to(device), batch_y.to(device)
-        outputs = model(batch_X)
-        loss = loss_func(outputs.squeeze(), batch_y)
+    for inputs, labels in dl:
+        inputs, labels = inputs.to(device), labels.to(device)
+        outputs = model(inputs)
+        loss = loss_func(outputs.squeeze(), labels)
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
