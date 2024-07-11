@@ -1,0 +1,1 @@
+本分词器使用transformers的BPE，对IMDB数据集进行分词，运行完demo.py后，你将在本文件夹下获得到tokerizer.json，为分词结果

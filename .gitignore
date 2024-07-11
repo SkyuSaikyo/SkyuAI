@@ -1,4 +1,2 @@
 warehouse/*
-*.pth
-*/tokenizer.json
-aclImdb
+**/tokenizer.json

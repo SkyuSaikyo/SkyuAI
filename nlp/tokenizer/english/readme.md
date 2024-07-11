@@ -1,0 +1,1 @@
+After running demo.py, you will obtain tokenizer.json in the current directory, which contains the tokenized results of the IMDb dataset using the Transformers’ BPE tokenizer.
