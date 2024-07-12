@@ -1,4 +1,5 @@
 warehouse/*
+!warehouse/readme.md
 *.pth
 *.json
 __pycache__
