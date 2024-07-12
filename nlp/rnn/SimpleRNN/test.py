@@ -15,7 +15,7 @@ ds = ImdbDataset(
     32,
     False,
 )
-dl = DataLoader(dataset=ds, batch_size=128, shuffle=True)
+dl = DataLoader(dataset=ds, batch_size=128)
 
 model = SimpleRnnModel(32768, 32, 32).to(device)
 checkpoint = torch.load("model.pth")

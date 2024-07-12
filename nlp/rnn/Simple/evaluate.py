@@ -15,7 +15,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"working on {device}")
 
 res = []
-for w in range(16, 257, 16):
+res.append(["epoch\\w"] + [epoch for epoch in range(4, 65, 4)])
+
+for w in [16, 32, 64, 128, 256]:
     print(f"loading train dataset, w={w}")
     train_ds = ImdbDataset(
         os.path.join(warehouse_dir, "./nlp/aclImdb"),
@@ -41,22 +43,27 @@ for w in range(16, 257, 16):
     loss_func = nn.BCELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-    epoch_res = []
-    for epoch in range(1, 33):
+    epoch_res = [w]
+
+    for epoch in range(1, 65):
         for train_inputs, train_labels in train_dl:
-            train_inputs, train_labels = train_inputs.to(device), train_labels.to(device)
+            train_inputs, train_labels = train_inputs.to(device), train_labels.to(
+                device
+            )
             outputs = model(train_inputs)
             loss = loss_func(outputs.squeeze(), train_labels)
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-        if epoch % 2 == 0:
+        if epoch % 4 == 0:
             model.eval()
             correct = 0
             total = 0
             with torch.no_grad():
                 for test_inputs, test_labels in test_dl:
-                    test_inputs, test_labels = test_inputs.to(device), test_labels.to(device)
+                    test_inputs, test_labels = test_inputs.to(device), test_labels.to(
+                        device
+                    )
                     outputs = model(test_inputs)
                     predicted = (outputs.squeeze() > 0.5).float()
                     total += test_labels.size(0)
@@ -68,7 +75,7 @@ for w in range(16, 257, 16):
     res.append(epoch_res)
 
 
-csv_file = f"evaulation embedding_dim={embedding_dim}.csv"
+csv_file = f"evaluation embedding_dim={embedding_dim}.csv"
 with open(csv_file, "w", newline="") as file:
     writer = csv.writer(file)
-    writer.writerows(res)
+    writer.writerows([[row[i] for row in res] for i in range(len(res[0]))])

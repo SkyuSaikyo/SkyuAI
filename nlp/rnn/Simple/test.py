@@ -15,7 +15,7 @@ ds = ImdbDataset(
     256,
     False,
 )
-dl = DataLoader(dataset=ds, batch_size=128, shuffle=True)
+dl = DataLoader(dataset=ds, batch_size=128)
 
 model = SimpleModel(32768, 8, 256).to(device)
 checkpoint = torch.load("model.pth")
