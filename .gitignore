@@ -1,5 +1,6 @@
+__pycache__
 warehouse/*
-!warehouse/readme.md
+!warehouse/*.md
 *.pth
 *.json
-__pycache__
+*.csv

@@ -7,6 +7,7 @@ from basic import ImdbDataset, LSTMModel
 warehouse_dir = "../../../warehouse"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"working on {device}")
 
 ds = ImdbDataset(
     os.path.join(warehouse_dir, "./nlp/aclImdb"),
@@ -14,7 +15,7 @@ ds = ImdbDataset(
     64,
     False,
 )
-dl = DataLoader(dataset=ds, batch_size=128)
+dl = DataLoader(dataset=ds, batch_size=128, shuffle=True)
 
 model = LSTMModel(32768, 32, 32).to(device)
 checkpoint = torch.load("model.pth")

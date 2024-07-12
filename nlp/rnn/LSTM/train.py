@@ -9,6 +9,7 @@ from basic import ImdbDataset, LSTMModel
 warehouse_dir = "../../../warehouse"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"working on {device}")
 
 ds = ImdbDataset(
     os.path.join(warehouse_dir, "./nlp/aclImdb"),
